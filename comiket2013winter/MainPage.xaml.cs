@@ -24,6 +24,7 @@ namespace comiket2013winter
                 Name = "hoge"
             };
 
+            //コメント
             TextBlock textBlock = new TextBlock()
             {
                 Text = "どーまんせーまん",
@@ -34,6 +35,7 @@ namespace comiket2013winter
                 Margin = new Thickness(0, 0, 0, 0)
             };
 
+            //影となるコメント
             TextBlock textBlock2 = new TextBlock()
             {
                 FontSize = 40,
@@ -44,12 +46,12 @@ namespace comiket2013winter
                 Opacity = 1.0
             };
 
-            grid.Children.Add(textBlock2);
-            grid.Children.Add(textBlock);
-            panel.Children.Add(grid);
+            grid.Children.Add(textBlock2);//影を追加
+            grid.Children.Add(textBlock);//影の上にコメント
+            panel.Children.Add(grid);//画面に追加
+            
 
-
-
+            //以下で、アニメーションさせる
             DoubleAnimation myDoubleAnimation = new DoubleAnimation()
             {
                 From = 768,//画面の右端
@@ -59,17 +61,18 @@ namespace comiket2013winter
             myDoubleAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(4000));//表示は4,000ミリ秒
 
             Storyboard.SetTargetName(myDoubleAnimation, grid.Name);
-            Storyboard.SetTargetProperty(myDoubleAnimation, new PropertyPath(Canvas.LeftProperty));
+            Storyboard.SetTargetProperty(myDoubleAnimation, new PropertyPath(Canvas.LeftProperty));//画面の左側の座標を操作する
             Storyboard sb = new Storyboard();
             sb.Children.Add(myDoubleAnimation);
             sb.Completed += ((sender, e) =>
             {
+                //アニメーション完了後、オブジェクトを破棄する
                 panel.Children.Remove(grid);
                 panel.Resources.Remove(grid.Name);
             });
 
             panel.Resources.Add(grid.Name, sb);
-            sb.Begin();
+            sb.Begin();//アニメーションスタート
 
         }
 
